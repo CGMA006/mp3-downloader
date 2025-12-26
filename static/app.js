@@ -15,15 +15,18 @@ downloadBtn.addEventListener("click", () => {
     status.textContent = "Status: Downloading...";
     downloadBtn.disabled = true;
 
+    //fetch sends a POST request to the /download endpoint with the URL in the request body
     fetch("/download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
     })
-        .then(res => res.json())
+        //res reads the JSON response from the python server
+        .then(res => res.json()) //this part reads to be exact
         .then(data => {
-            if (data.status === "Download complete") {
-                status.textContent = "Status: Download complete!";
+            if (data.mp3_url){
+            window.location.href = data.mp3_url;
+            status.textContent = "Status: Download complete!";
             } else {
                 status.textContent = "Status: Error";
             }
